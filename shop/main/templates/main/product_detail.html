@@ -1,0 +1,102 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}
+Детальніше
+{% endblock %}
+
+
+{% block style-m %}
+<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="/" class="nav-link px-2 text-white">Вийти</a></li>
+          <li><a href="{% url 'catalog' %}" class="nav-link px-2 text-white">Каталог</a></li>
+          <li><a href="{% url 'cart' %}" class="nav-link px-2 text-white">Кошик</a></li>
+        </ul>
+{% endblock %}
+
+
+{% block content %}
+<div class="container_cart_info">
+    <div class="product-details">
+        <div class="product-image">
+            <!-- Зображення товару -->
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" id="mainImage">
+        </div>
+        <div class="product-info">
+            <h3>{{ product.name }}</h3>
+            <p>Ціна: {{ product.price }}</p>
+            <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                {% csrf_token %}
+                <div class="filters">
+                    <div class="filter">
+                        <div for="color">Колір:</div>
+                        <div class="color-container">
+                            {% for color in product.colors.all %}
+                                <label for="color-{{ color.id }}" class="color-label">
+                                    <div class="color-circle no-circle" style="background-color: {{ color.name }}; border: 1px solid black;"></div>
+                                    <input style="display: none;" type="radio" id="color-{{ color.id }}" name="color" value="{{ color.id }}" required>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="filter">
+                        <div for="material">Матеріал:</div>
+                        <div class="material-container">
+                            {% for material in product.materials.all %}
+                                <label for="material-{{ material.id }}" class="material-label">
+                                    <div class="material-circle no-circle" style="background-image: url('{{ material.image.url }}');"></div>
+                                    <input type="radio" name="material" id="material-{{ material.id }}" value="{{ material.id }}" style="display: none;" required{% if forloop.first %} checked{% endif %} >
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="quantity-container">
+                    <label for="quantity">Кількість:</label>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1">
+                </div>
+                <button type="submit" class="buy-button">Додати в корзину</button>
+            </form>
+            {% if added_to_cart %}
+            <p class="success-message">Товар успішно додано в корзину</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="gallery">
+        {% for image in gallery_images %}
+            <img src="{{ image.image.url }}" alt="Gallery Image" class="gallery-image">
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+  const galleryImages = document.querySelectorAll('.gallery-image');
+  const mainImage = document.getElementById('mainImage');
+
+  galleryImages.forEach(image => {
+    image.addEventListener('click', () => {
+      mainImage.src = image.src;
+    });
+  });
+
+  const colorCircles = document.querySelectorAll('.color-circle');
+  const materialCircles = document.querySelectorAll('.material-circle');
+
+  colorCircles.forEach(circle => {
+    circle.addEventListener('click', () => {
+      const selectedColor = getComputedStyle(circle).backgroundColor;
+
+      colorCircles.forEach(c => {
+        c.classList.remove('selected');
+        c.style.border = '1px solid black';
+      });
+
+      circle.classList.add('selected');
+      circle.style.border = '2px solid red';
+
+      materialCircles.forEach(materialCircle => {
+        materialCircle.style.backgroundColor = selectedColor;
+      });
+    });
+  });
+</script>
+{% endblock %}

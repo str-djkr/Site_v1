@@ -1,0 +1,140 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}
+Кошик
+{% endblock %}
+
+{% block style-m %}
+<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="/" class="nav-link px-2 text-white">Вийти</a></li>
+          <li><a href="{% url 'catalog' %}" class="nav-link px-2 text-white">Каталог</a></li>
+          <li><a href="{% url 'cart' %}" class="nav-link px-2 text-secondary">Кошик</a></li>
+        </ul>
+{% endblock %}
+
+{% block content %}
+  {% if cart_items %}
+    <ul class="product-grid">
+      {% for item, price in cart_items_with_price %}
+        <li class="product-card">
+          <div class="item-image">
+            <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}">
+          </div>
+          <div class="product-info">
+            <h3>{{ item.product.title }}</h3>
+            <p>Ціна: {{ item.product.price }} грн</p>
+            <form action="{% url 'cart' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="product_id" value="{{ item.product.id }}">
+              <p>Кількість:
+                <input type="number" name="quantity" min="1" value="{{ item.quantity }}">
+              </p>
+              <p>Колір:</p>
+              <div class="color-container">
+                {% for color in item.product.colors.all %}
+                  <label class="color-circle-label {% if color == item.color %}selected{% endif %}">
+                    <input style="display: none;" type="radio" name="color" value="{{ color }}" {% if color == item.color %}checked{% endif %}>
+                    <span class="color-circle" style="background-color: {{ color }}"></span>
+                  </label>
+                {% endfor %}
+              </div>
+              <p>Матеріал:
+                <select name="material" class="material-select">
+                  {% for material_option in item.product.materials.all %}
+                    <option value="{{ material_option }}" {% if material_option == item.material %}selected{% endif %}>{{ material_option }}</option>
+                  {% endfor %}
+                </select>
+              </p>
+              <button type="submit">Зберегти</button>
+            </form>
+            <p>Загальна вартість: {{ price }} грн</p>
+              <p class="card-text">Статус: {% if item.Success%}Підтверджено{% else %}Не підтверджено{% endif %}</p>
+            <td>
+            <form method="POST" action="{% url 'delete_item' item.product.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="product_id" value="{{ item.product.id }}">
+              <button type="submit" class="delete-button">Видалити</button>
+            </form>
+          </td>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>Загальна сума покупок: {{ total_price }} грн</p>
+
+<form method="POST" action="{% url 'confirm-all-items' %}">
+  {% csrf_token %}
+  <button type="submit">Підтвердити всі</button>
+</form>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+  {% else %}
+    <p>Ваш кошик порожній</p>
+  {% endif %}
+
+  <style>
+   .color-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.color-circle-label {
+  position: relative;
+  cursor: pointer;
+}
+
+.color-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid #000;
+  display: inline-block;
+}
+
+.color-circle-label.selected .color-circle {
+  border: 2px solid red;
+}
+}
+
+
+  </style>
+
+  <script>
+    {% for item, price in cart_items_with_price %}
+      const colorSelect{{ item.product.id }} = document.getElementById('color-select-{{ item.product.id }}');
+      const colorCircles{{ item.product.id }} = colorSelect{{ item.product.id }}.getElementsByTagName('label');
+
+      colorSelect{{ item.product.id }}.addEventListener('change', () => {
+        const selectedColor = colorSelect{{ item.product.id }}.value;
+
+        for (let i = 0; i < colorCircles{{ item.product.id }}.length; i++) {
+          const colorCircle = colorCircles{{ item.product.id }}[i];
+
+          if (colorCircle.querySelector('input').value === selectedColor) {
+            colorCircle.classList.add('selected');
+          } else {
+            colorCircle.classList.remove('selected');
+          }
+        }
+
+      });
+      $(document).ready(function() {
+        $('.color-select, .material-select').change(function() {
+          var form = $(this).closest('form');
+          form.submit();
+        });
+      });
+
+
+
+    {% endfor %}
+  </script>
+{% endblock %}

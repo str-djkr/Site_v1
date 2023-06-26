@@ -1,0 +1,90 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}
+Каталог
+{% endblock %}
+
+{% block style-m %}
+<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="/" class="nav-link px-2 text-white">Вийти</a></li>
+          <li><a href="{% url 'catalog' %}" class="nav-link px-2 text-secondary">Каталог</a></li>
+          <li><a href="{% url 'cart' %}" class="nav-link px-2 text-white">Кошик</a></li>
+        </ul>
+{% endblock %}
+
+{% block content %}
+<body>
+<div class="container">
+    <div class="filters">
+        <form method="get" action="{% url 'catalog' %}" class="filter-form">
+    <div class="filter-field">
+        <label for="name">Назва:</label>
+        <input type="text" id="name" name="name" placeholder="Введіть назву">
+    </div>
+    <div class="filter-field">
+        <label for="category">Категорія:</label>
+        <select id="category" name="category">
+            <option value="">Виберіть категорію</option>
+            <option value="bag">Сумки</option>
+            <option value="-">-</option>
+            <option value="-">-</option>
+        </select>
+    </div>
+    <div class="filter-field">
+        <label for="min_price">Мінімальна ціна:</label>
+        <input type="number" id="min_price" name="min_price" placeholder="Введіть мінімальну ціну">
+    </div>
+    <div class="filter-field">
+        <label for="max_price">Максимальна ціна:</label>
+        <input type="number" id="max_price" name="max_price" placeholder="Введіть максимальну ціну">
+    </div>
+    <button type="submit" class="green-button">Фільтрувати</button>
+</form>
+        <script>
+    var categorySelect = document.getElementById('category');
+    var urlParams = new URLSearchParams(window.location.search);
+    var selectedCategory = urlParams.get('category');
+    if (selectedCategory !== null) {
+        categorySelect.value = selectedCategory;
+    }
+
+    var nameInput = document.getElementById('name');
+    var enteredName = urlParams.get('name');
+    if (enteredName !== null) {
+        nameInput.value = enteredName;
+    }
+
+    var minPriceInput = document.getElementById('min_price');
+    var enteredMinPrice = urlParams.get('min_price');
+    if (enteredMinPrice !== null) {
+        minPriceInput.value = enteredMinPrice;
+    }
+
+    var maxPriceInput = document.getElementById('max_price');
+    var enteredMaxPrice = urlParams.get('max_price');
+    if (enteredMaxPrice !== null) {
+        maxPriceInput.value = enteredMaxPrice;
+    }
+        </script>
+
+    </div>
+    <div class="product-grid">
+        {% for product in products %}
+
+        <div class="product-card">
+            <img src="{{ product.image.url }}">
+            <div class="product-info">
+                <h3>{{ product.name }}</h3>
+                <p>Категорія: {{ product.category }}</p>
+                <p>Ціна: {{ product.price }} гривень</p>
+                <p>Колір: {{ product.color }}</p>
+                <a href="{% url 'product_detail' product.id %}"><button class="green-button">Купити</button></a>
+            </div>
+        </div>
+        {% empty %}
+        <p>Немає товарів, які відповідають вибраним критеріям.</p>
+        {% endfor %}
+    </div>
+</div>
+</body>
+{% endblock %}

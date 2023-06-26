@@ -1,0 +1,317 @@
+.container {
+    display: flex;
+}
+
+.filters {
+    width: 25%;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.product-grid {
+    width: 75%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.product-card {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: scale(1.1);
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+}
+
+.product-info h3 {
+    margin-top: 0;
+}
+
+.product-info p {
+    margin-bottom: 5px;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    height: 100px;
+    margin-top: 20px;
+}
+
+.footer p {
+  margin-bottom: 10px;
+}
+
+.footer-menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-menu li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.footer-menu li a {
+  text-decoration: none;
+  color: #000;
+}
+
+.footer-menu li a:hover {
+  color: #ccc;
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-field {
+  flex: 1 1 200px;
+}
+
+.filter-field label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.filter-field input[type="text"],
+.filter-field select {
+  width: 100%;
+  padding: 5px;
+}
+
+.filter-field input[type="number"] {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.filter-field input[type="number"]::-webkit-inner-spin-button,
+.filter-field input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.filter-field input[type="number"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background-color: #2196f3;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.filter-field input[type="number"]::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background-color: #2196f3;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.filter-field input[type="number"]::-ms-thumb {
+  width: 15px;
+  height: 15px;
+  background-color: #2196f3;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.green-button {
+  background-color: green;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+
+}
+
+.green-button:hover {
+  background-color: darkgreen;
+}
+
+
+.container_cart_info {
+  width: 100%;
+    max-width: 60%;
+    margin: 0 auto;
+  background-color: #f1f1f1; /* Задайте колір фону відповідно до вашого дизайну */
+}
+
+.product-details {
+  display: flex;
+  align-items: center;
+  justify-content: flex-center;
+}
+
+.product-image {
+  display: inline-block;
+  width: 30%;
+  width:400px;
+  margin-right: 20%;
+}
+
+.product-image img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.product-info h3 {
+  font-size: 24px;
+}
+
+.product-info p {
+  font-size: 18px;
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+.filter {
+  margin-right: 10px;
+}
+
+.filter label {
+  font-weight: bold;
+}
+
+.filter select {
+  padding: 5px 10px;
+  font-size: 16px;
+}
+
+.description {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.buy-button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.product-info_cart_info {
+  flex-grow: 1;
+}
+
+/* Решта стилів залишаються без змін */
+.product-info_cart_info h3 {
+  font-size: 24px;
+}
+
+.product-info_cart_info p {
+  font-size: 18px;
+}
+
+.filters_cart_info {
+  margin-bottom: 20px;
+}
+
+.filter_cart_info {
+  margin-right: 10px;
+}
+
+.filter_cart_info label {
+  font-weight: bold;
+}
+
+.filter_cart_info select {
+  padding: 5px 10px;
+  font-size: 16px;
+}
+
+.description_cart_info {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.buy-button_cart_info {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.buy-button:hover {
+  background-color: #45a049;
+}
+
+.gallery {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .gallery-image {
+        width: 100px;
+        height: 100px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        object-fit: cover;
+        cursor: pointer;
+    }
+
+    .gallery-image:hover {
+        opacity: 0.7;
+    }
+
+.product-image img {
+  border: 2px solid #ddd; /* Додати обводку товщиною 2 пікселі з коліром #ddd */
+  max-width: 100%; /* Максимальна ширина фото буде 100% від батьківського контейнера */
+  height: auto; /* Автоматична висота для збереження пропорцій фото */
+}
+
+.color-container, .material-container {
+  display: flex;
+  align-items: center;
+}
+
+.color-label, .material-label {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.color-circle, .material-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.selected {
+  border: 2px solid red;
+}
+
+
+.success-message {
+    color: green;
+    font-weight: bold;
+}
+
